@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Habit Tracker</title>
+  <meta name="theme-color" content="#020202">
+  <meta name="description" content="A monthly habit tracker with progress bars, day-by-day completion charts, and local saved history.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" sizes="192x192" type="image/png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="control-bar">
+      <div class="title-block">
+        <p class="eyebrow">Monthly habit board</p>
+        <h1>Habit Tracker</h1>
+        <p class="subtitle">Spreadsheet-style tracker with live progress graphs and saved monthly records.</p>
+      </div>
+
+      <div class="calendar-controls" aria-label="Month controls">
+        <button id="prevMonthButton" class="control-button" type="button">Prev</button>
+        <label class="month-picker">
+          <span>Select month</span>
+          <input id="monthPicker" type="month" aria-label="Select month">
+        </label>
+        <button id="nextMonthButton" class="control-button" type="button">Next</button>
+        <button id="todayButton" class="control-button accent-button" type="button">Today</button>
+      </div>
+    </header>
+
+    <section class="sheet-panel" aria-labelledby="sheetCaption">
+      <div class="sheet-scroll">
+        <div class="sheet-frame">
+          <p id="sheetCaption" class="screen-reader-only">Habit tracker sheet with 10 habits and 31 day columns.</p>
+          <div class="sheet-heading" aria-hidden="true">habit tracker</div>
+
+          <table class="tracker-table" aria-label="Habit tracker table">
+            <colgroup>
+              <col class="col-index">
+              <col class="col-habit">
+              <col class="col-day" span="31">
+              <col class="col-progress">
+            </colgroup>
+            <thead id="trackerHead"></thead>
+            <tbody id="trackerBody"></tbody>
+          </table>
+
+          <section class="daily-chart-panel" aria-labelledby="dailyChartTitle">
+            <div class="daily-chart-meta">
+              <p id="dailyChartTitle" class="daily-chart-title">progress on daily basis</p>
+              <p id="monthSummary" class="month-summary"></p>
+            </div>
+            <div id="dailyChart" class="daily-chart-grid" aria-label="Daily completion percentage graph"></div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <noscript>
+    <p class="noscript-warning">This habit tracker needs JavaScript enabled so it can save and render your monthly records.</p>
+  </noscript>
+
+  <script src="script.js" defer></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js").catch((error) => {
+          console.warn("Service worker registration failed.", error);
+        });
+      });
+    }
+  </script>
+</body>
+</html>
